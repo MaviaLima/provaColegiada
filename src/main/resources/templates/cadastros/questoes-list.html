@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Questões - Cadastro de Questões</title>
+</head>
+<body>
+<div th:insert="header"></div>
+
+	<div class="container">
+		<h2>Disciplina</h2>
+		<h5>Adicionar/Editar/Pesquisar:</h5>
+		<form class="form-narrow form-horizontal" method="post"
+			th:action="@{/questoes/saveList}" th:object="${questao}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<table class="table table-striped">
+				<tr>
+					<td>Disciplina:</td>
+					<td>
+						<select class="form-control" id="disciplina" th:field="*{disciplina}">
+							<option 
+								th:each="item : ${listaDisciplina}" 
+								th:value="${item.id}"
+								
+								th:text="${item.nome}" selected="selected"></option>
+						</select> 
+					</td>
+				</tr>
+				<tr>
+					<td>Tópicos: </td>
+					<td><input type="text" id="topico" size="40"
+					placeholder="Tópico" th:field="*{topico}" /></td>
+				</tr>
+				<tr>
+					<td>Descrição: </td>
+					<td><input type="text" id="descricao" size="1000"
+					placeholder="descricao" th:field="*{descricao}" /></td>
+				</tr>
+				<tr>
+					<td>
+						<td>Tipo: </td>
+						<select class="form-control" id="Complexibilidade" th:field="*{complexibilidade}">
+							<option style="text-transform: capitalize"
+								th:each="item : ${listaComplexibilidade}" 
+								th:value="${item}"	
+								th:text="${item.text}" selected="selected"></option>
+						</select> 
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<td>Nível: </td>
+						<select class="form-control" id="tipo" th:field="*{tipoAlternativas}">
+							<option style="text-transform: capitalize"
+								th:each="item : ${listaTipoAlternativas}" 
+								th:value="${item}"	
+								th:text="${item.text}" selected="selected"></option>
+						</select> 
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="right">
+						<button type="submit" class="btn btn-primary"  name="action" value="salvar">Salvar</button>&nbsp;&nbsp;					
+						<button type="submit" class="btn btn-info" name="action" value="pesquisar">Pesquisar</button>&nbsp;&nbsp;
+						<a th:href="@{/disciplinas/saveList}" class="btn btn-info">Nova Disciplina</a>
+					</td>
+				</tr>
+			</table>
+			<div class="alert alert-success" th:if="${mensagemSucesso}"
+				th:text="${mensagemSucesso}"></div>
+			<div class="alert alert-danger" th:if="${mensagemErro}"
+				th:text="${mensagemErro}"></div>
+		</form>		
+		<hr/>
+		<h5>Lista de Disciplinas:</h5>		
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Disciplinas</th>
+					<th>Tópicos</th>
+					<th>Descrição</th>
+					<th>Nível</th>
+					<th>Tipo</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="questao : ${lista}">
+					<td th:text="${questao.disciplina.nome}"></td>
+					<td th:text="${questao.topico}"></td>
+					<td th:text="${questao.descricao}"></td>
+					<td th:text="${questao.complexibilidade}"></td>
+					<td th:text="${questao.tipoAlternativas}"></td>
+					<td><a class="btn btn-warning"
+						th:href="@{/questoes/edit/{id}(id=${questao.id})}">Editar</a></td>
+					<td><a class="btn btn-warning"
+						th:href="@{/questoes/remover/{id}(id=${questao.id})}">Remover</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<hr></hr>
+
+		<h6>
+			<a th:href="@{/}">Home</a>
+		</h6>
+	</div>
+
+</body>
+</html>
